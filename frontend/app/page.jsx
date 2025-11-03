@@ -91,7 +91,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className="h-screen overflow-hidden flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       {/* Spotify-like Header */}
       <PlaylistHeader 
         title="Collaborative Playlist"
@@ -112,7 +112,7 @@ export default function Home() {
       />
 
       {/* Header (kept small for status) */}
-      <header className="bg-gray-800/40 backdrop-blur-sm border-b border-gray-700/60 shadow-lg animate-fade-in">
+      <header className="bg-gray-800/40 backdrop-blur-sm border-b border-gray-700/60 shadow-lg animate-fade-in flex-none">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="text-sm text-gray-300">Realtime collaborative playlist</div>
           <ConnectionStatus />
@@ -120,14 +120,14 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 flex max-w-7xl mx-auto w-full px-4 py-4 gap-4">
+      <div className="flex-1 min-h-0 flex max-w-7xl mx-auto w-full px-4 py-4 gap-4">
         {/* Track Library */}
-        <div className="w-1/3 bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden transform transition-all duration-300 hover:scale-[1.01]">
+        <div className="w-1/3 h-full min-h-0 bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden transform transition-all duration-300 hover:scale-[1.01] flex flex-col">
           <TrackLibrary playlistTracks={playlist} onAddTrack={loadPlaylist} />
         </div>
 
         {/* Playlist */}
-        <div className="w-2/3 bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden transform transition-all duration-300 hover:scale-[1.01]">
+        <div className="w-2/3 h-full min-h-0 bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden transform transition-all duration-300 hover:scale-[1.01] flex flex-col">
           <Playlist 
             playlist={playlist} 
             onUpdate={loadPlaylist}
@@ -137,7 +137,9 @@ export default function Home() {
       </div>
 
       {/* Now Playing Bar */}
-      <NowPlaying playlist={playlist} />
+      <div className="flex-none">
+        <NowPlaying playlist={playlist} />
+      </div>
     </div>
   );
 }

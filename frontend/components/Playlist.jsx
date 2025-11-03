@@ -96,7 +96,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
   const totalDuration = localPlaylist.reduce((sum, item) => sum + item.track.duration_seconds, 0);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full overflow-hidden">
       <div className="p-4 border-b border-gray-700">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-white">Playlist</h2>
@@ -107,7 +107,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
       </div>
 
       <div className="px-4 pt-3 text-xs uppercase tracking-wide text-gray-400">
-        <div className="grid grid-cols-[24px_minmax(0,4fr)_minmax(0,3fr)_80px_80px] gap-3 px-2">
+        <div className="grid grid-cols-[24px_minmax(0,4fr)_minmax(0,3fr)_120px_80px] gap-3 px-2">
           <div>#</div>
           <div>Title</div>
           <div>Album</div>
@@ -140,7 +140,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
                           <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            className={`grid grid-cols-[24px_minmax(0,4fr)_minmax(0,3fr)_80px_80px] gap-3 items-center px-3 py-2 rounded-md transition-all duration-200 hover:bg-gray-700/40 ${
+                            className={`grid grid-cols-[24px_minmax(0,4fr)_minmax(0,3fr)_120px_80px] gap-3 items-center px-3 py-2 rounded-md transition-all duration-200 hover:bg-gray-700/40 ${
                               isPlaying ? 'bg-primary-900/20' : 'bg-transparent'
                             } ${snapshot.isDragging ? 'opacity-70 scale-[1.01]' : ''}`}
                           >
@@ -157,7 +157,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
                             <div className="truncate text-gray-300">{item.track.album || '-'}</div>
 
                             {/* Added by */}
-                            <div className="text-sm text-gray-400">{item.added_by}</div>
+                            <div className="text-sm text-gray-400 truncate">{item.added_by}</div>
 
                             {/* Right controls */}
                             <div className="flex items-center justify-end gap-2 text-gray-400">
