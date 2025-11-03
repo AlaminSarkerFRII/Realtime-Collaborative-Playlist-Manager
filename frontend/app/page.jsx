@@ -7,6 +7,7 @@ import TrackLibrary from '@/components/TrackLibrary';
 import Playlist from '@/components/Playlist';
 import NowPlaying from '@/components/NowPlaying';
 import ConnectionStatus from '@/components/ConnectionStatus';
+import PlaylistHeader from '@/components/PlaylistHeader';
 
 export default function Home() {
   const [playlist, setPlaylist] = useState([]);
@@ -91,20 +92,30 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-      {/* Header */}
-      <header className="bg-gray-800/80 backdrop-blur-sm border-b border-gray-700 shadow-lg animate-fade-in">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-white animate-slide-up">
-                🎵 Collaborative Playlist
-              </h1>
-              <p className="text-sm text-gray-300 mt-1">
-                Real-time collaborative playlist manager
-              </p>
-            </div>
-            <ConnectionStatus />
-          </div>
+      {/* Spotify-like Header */}
+      <PlaylistHeader 
+        title="Collaborative Playlist"
+        totalTracks={playlist.length}
+        totalDurationLabel={(() => {
+          const secs = playlist.reduce((s, i) => s + i.track.duration_seconds, 0);
+          const mins = Math.floor(secs / 60);
+          const rem = secs % 60;
+          return `${mins}:${String(rem).padStart(2,'0')}`;
+        })()}
+        followersLabel="Public"
+        onPlayAll={() => {
+          const first = playlist[0];
+          if (first) {
+            playlistApi.setPlaying(first.id);
+          }
+        }}
+      />
+
+      {/* Header (kept small for status) */}
+      <header className="bg-gray-800/40 backdrop-blur-sm border-b border-gray-700/60 shadow-lg animate-fade-in">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="text-sm text-gray-300">Realtime collaborative playlist</div>
+          <ConnectionStatus />
         </div>
       </header>
 
