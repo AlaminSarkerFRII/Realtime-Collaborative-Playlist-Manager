@@ -107,7 +107,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
       </div>
 
       <div className="px-4 pt-3 text-xs uppercase tracking-wide text-gray-400">
-        <div className="grid grid-cols-[48px_minmax(0,4fr)_minmax(0,3fr)_120px_80px] gap-3 px-2">
+        <div className="grid grid-cols-[56px_minmax(0,4fr)_minmax(0,3fr)_120px_80px] gap-3 px-2">
           <div>#</div>
           <div>Title</div>
           <div>Album</div>
@@ -140,25 +140,24 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
                           <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            className={`grid grid-cols-[48px_minmax(0,4fr)_minmax(0,3fr)_120px_80px] gap-3 items-center px-3 py-2 rounded-md transition-all duration-200 hover:bg-gray-700/40 ${
+                            className={`grid grid-cols-[56px_minmax(0,4fr)_minmax(0,3fr)_120px_80px] gap-3 items-center px-3 py-2 rounded-md transition-all duration-200 hover:bg-gray-700/40 ${
                               isPlaying ? 'bg-primary-900/20' : 'bg-transparent'
                             } ${snapshot.isDragging ? 'opacity-70 scale-[1.01]' : ''}`}
                           >
                             {/* Row controls: play + drag handle/index */}
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 w-12">
                               <button
                                 onClick={() => handleSetPlaying(item.id)}
                                 title={isPlaying ? 'Playing' : 'Play'}
-                                className={`p-1 rounded-md transition-colors ${isPlaying ? 'text-primary-400' : 'text-gray-400 hover:text-primary-300'}`}
+                                className={`p-1 rounded-md transition-colors flex items-center justify-center w-5 h-5 ${isPlaying ? 'text-primary-400' : 'text-gray-400 hover:text-primary-300'}`}
                                 aria-label="Play"
                               >
                                 {isPlaying ? (
-                                  // Equalizer icon when playing
-                                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                                    <rect x="4" y="8" width="3" height="8" rx="1"></rect>
-                                    <rect x="10.5" y="5" width="3" height="14" rx="1"></rect>
-                                    <rect x="17" y="9" width="3" height="6" rx="1"></rect>
-                                  </svg>
+                                  <span className="eq eq-sm">
+                                    <span className="eq-bar"></span>
+                                    <span className="eq-bar"></span>
+                                    <span className="eq-bar"></span>
+                                  </span>
                                 ) : (
                                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                                 )}
@@ -180,19 +179,19 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
 
                             {/* Right controls */}
                             <div className="flex items-center justify-end gap-2 text-gray-400">
-                              <button onClick={() => handleVote(item.id, 'down')} className="p-1 hover:text-red-400 hover:scale-110 transition-transform" aria-label="Downvote">
-                                {/* Thumbs down icon */}
-                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M10.5 4.5A2.5 2.5 0 0 1 13 7v4.25l1.8 3.6c.6 1.2-.26 2.65-1.6 2.65H8.5a2 2 0 0 1-1.94-1.5L5 13H3.5A1.5 1.5 0 0 1 2 11.5v-6A1.5 1.5 0 0 1 3.5 4h6.99Z"/>
-                                  <path d="M18 4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-3V4Z"/>
+                              <button onClick={() => handleVote(item.id, 'down')} className="p-1 hover:text-red-400 hover:scale-110 transition-transform" aria-label="Dislike">
+                                {/* Facebook-like thumbs down (outlined until hover) */}
+                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M10.5 4.75c.69 0 1.25.56 1.25 1.25v4.25l2.02 4.03c.42.84-.19 1.97-1.13 1.97H8.5a1.5 1.5 0 0 1-1.45-1.12L5.2 13H3.5A1.5 1.5 0 0 1 2 11.5v-5A1.5 1.5 0 0 1 3.5 5h7Z"/>
+                                  <path d="M18 5h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3V5Z"/>
                                 </svg>
                               </button>
-                              <div className={`w-8 text-center ${item.votes>0?'text-green-400':item.votes<0?'text-red-400':'text-gray-400'}`}>{item.votes>0?'+':''}{item.votes}</div>
-                              <button onClick={() => handleVote(item.id, 'up')} className="p-1 hover:text-green-400 hover:scale-110 transition-transform" aria-label="Upvote">
-                                {/* Thumbs up icon */}
-                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M13.5 19.5A2.5 2.5 0 0 1 11 17V12.75L9.2 9.15C8.6 7.95 9.46 6.5 10.8 6.5h4.7a2 2 0 0 1 1.94 1.5L19 11h1.5A1.5 1.5 0 0 1 22 12.5v6a1.5 1.5 0 0 1-1.5 1.5h-6.99Z"/>
-                                  <path d="M6 20H3a1 1 0 0 1-1-1V12a1 1 0 0 1 1-1h3v9Z"/>
+                              <div className={`w-8 text-center ${item.votes>0?'text-blue-400':item.votes<0?'text-red-400':'text-gray-400'}`}>{item.votes>0?'+':''}{item.votes}</div>
+                              <button onClick={() => handleVote(item.id, 'up')} className="p-1 hover:text-blue-400 hover:scale-110 transition-transform" aria-label="Like">
+                                {/* Facebook-like thumbs up */}
+                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M13.5 19.25c-.69 0-1.25-.56-1.25-1.25V13.75L10.23 9.7c-.42-.84.19-1.97 1.13-1.97h4.14c.66 0 1.25.45 1.43 1.1L18.8 11H20.5A1.5 1.5 0 0 1 22 12.5v5A1.5 1.5 0 0 1 20.5 19h-7Z"/>
+                                  <path d="M6 19H3a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h3v8Z"/>
                                 </svg>
                               </button>
                               <button onClick={() => handleRemove(item.id)} className="p-1 hover:text-red-400 hover:scale-110 transition-transform" aria-label="Remove">

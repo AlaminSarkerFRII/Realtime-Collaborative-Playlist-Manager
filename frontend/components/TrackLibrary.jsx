@@ -134,13 +134,23 @@ export default function TrackLibrary({ playlistTracks, onAddTrack }) {
                   <button
                     onClick={() => handleAddTrack(track.id)}
                     disabled={isInPlaylist}
-                    className={`ml-4 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                    className={`ml-4 px-3 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 border ${
                       isInPlaylist
-                        ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 active:scale-95 shadow-lg hover:shadow-primary-500/50'
+                        ? 'border-gray-600/60 text-gray-400 cursor-not-allowed bg-transparent'
+                        : 'border-primary-500/50 text-primary-300 bg-transparent hover:bg-primary-500/10 active:scale-95'
                     }`}
                   >
-                    {isInPlaylist ? 'Added' : 'Add'}
+                    {isInPlaylist ? (
+                      <>
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4 1.5 1.5L11 16 7.5 12.5 9 12z"/></svg>
+                        <span>Added</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5v14m-7-7h14"/></svg>
+                        <span>Add</span>
+                      </>
+                    )}
                   </button>
                 </div>
               );
