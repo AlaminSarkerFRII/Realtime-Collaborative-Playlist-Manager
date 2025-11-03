@@ -163,6 +163,31 @@ npm test
 bash docs/api/smoke.sh
 ```
 
+### Postman/Thunder Client Import
+
+Import the collection at `docs/api/postman_collection.json`:
+
+- Postman: File → Import → Upload File → select `docs/api/postman_collection.json`.
+- Thunder Client (VS Code): Collections → Import → select the same file.
+
+Environment: none required; endpoints are hardcoded to `http://localhost:4000`.
+
+### Root Scripts (Convenience)
+
+From the repository root you can run:
+
+```bash
+# Run backend tests
+npm run test:backend
+
+# Setup database (generate client, migrate, seed)
+npm run db:setup
+
+# Seed only / migrate only
+npm run db:seed
+npm run db:migrate
+```
+
 Tests cover:
 - Position calculation algorithm
 - Database operations

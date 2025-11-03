@@ -12,6 +12,10 @@
     "build:backend": "cd backend && npm run db:generate && npm run db:migrate && npm run db:seed",
     "build:frontend": "cd frontend && npm run build",
     "test:backend": "cd backend && npm test",
+    "db:seed": "cd backend && npm run db:seed",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:generate": "cd backend && npm run db:generate",
+    "db:setup": "npm run db:generate && npm run db:migrate && npm run db:seed",
     "start:backend": "cd backend && npm start",
     "start:frontend": "cd frontend && npm start"
   }
