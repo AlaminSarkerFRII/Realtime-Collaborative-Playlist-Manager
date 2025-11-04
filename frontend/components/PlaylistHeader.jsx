@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNotifications } from '@/contexts/NotificationContext';
 import NotificationModal from './NotificationModal';
 
-export default function PlaylistHeader({ title = 'Collaborative Playlist', coverUrl, totalTracks = 0, totalDurationLabel = '0:00', followersLabel = 'Public', onPlayAll, compact = false }) {
+export default function PlaylistHeader({ title = 'Collaborative Playlist', coverUrl, totalTracks = 0, totalDurationLabel = '0:00', followersLabel = 'Public', onPlayAll, compact = false, isPlaying = false }) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const menuRef = useRef(null);
@@ -65,7 +65,7 @@ export default function PlaylistHeader({ title = 'Collaborative Playlist', cover
           </div>
           <div className="mt-auto">
             <button onClick={onPlayAll} className="px-3 py-1.5 rounded-full bg-white/90 text-gray-900 text-sm font-semibold hover:bg-white transition-colors shadow">
-              Play
+              {isPlaying ? 'Playing' : 'Play'}
             </button>
           </div>
         </div>

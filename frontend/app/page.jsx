@@ -65,7 +65,7 @@ function HomeContent() {
       addNotification(
         'added',
         'Track Added to Playlist',
-        `${message.item?.track?.title || 'Unknown track'} was added to the playlist`,
+        `${message.item?.track?.title || 'Unknown track'} was added to playlist`,
         message.item?.track
       );
     });
@@ -75,7 +75,7 @@ function HomeContent() {
       addNotification(
         'removed',
         'Track Removed from Playlist',
-        `${message.item?.track?.title || 'Unknown track'} was removed from the playlist`,
+        `${message.item?.track?.title || 'Unknown track'} was removed from playlist`,
         message.item?.track
       );
     });
@@ -156,6 +156,7 @@ function HomeContent() {
             playlistApi.setPlaying(first.id);
           }
         }}
+        isPlaying={isPlaying}
       />
 
       {/* Header (kept small for status) */}
@@ -216,6 +217,7 @@ function HomeContent() {
                       totalDurationLabel={`${mins}:${String(rem).padStart(2,'0')}`}
                       followersLabel={current.track.artist}
                       onPlayAll={() => playlistApi.setPlaying(current.id)}
+                      isPlaying={isPlaying}
                     />
                   </div>
                   
