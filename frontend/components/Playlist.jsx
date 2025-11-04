@@ -228,4 +228,3 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
     </div>
   );
 }
-

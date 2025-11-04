@@ -16,7 +16,16 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  
+  const [selectedPlaylistIndex, setSelectedPlaylistIndex] = useState(0);
+
+  // Random background colors for playlist cards
+  const backgroundColors = [
+    'bg-gradient-to-br from-purple-600/20 to-pink-600/20',
+    'bg-gradient-to-br from-blue-600/20 to-cyan-600/20',
+    'bg-gradient-to-br from-green-600/20 to-emerald-600/20',
+    'bg-gradient-to-br from-orange-600/20 to-red-600/20',
+    'bg-gradient-to-br from-indigo-600/20 to-purple-600/20',
+  ];
 
   useEffect(() => {
     loadPlaylist();
@@ -119,21 +128,21 @@ export default function Home() {
 
       {/* Header (kept small for status) */}
       <header className="bg-gray-800/40 backdrop-blur-sm border-b border-gray-700/60 shadow-lg animate-fade-in flex-none">
-        <div className="max-w-[1400px] mx-auto px-3 py-3 flex items-center justify-between">
+        <div className="w-full px-3 py-3 flex items-center justify-between">
           <div className="text-sm text-gray-300 opacity-90 shimmer-underline">Realtime collaborative playlist</div>
           <ConnectionStatus />
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="min-h-0 flex flex-wrap xl:flex-nowrap max-w-[1600px] mx-auto w-full px-4 py-4 gap-4 relative z-10">
-        {/* Track Library (30%) */}
+      {/* Main Content - Full width no margins */}
+      <div className="min-h-0 flex flex-wrap xl:flex-nowrap w-full px-4 py-4 gap-4 relative z-10">
+        {/* Track Library (32%) */}
         <div className="h-full min-h-0 bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden transform transition-all duration-300 hover:scale-[1.01] flex flex-col w-full xl:basis-[32%]">
           <TrackLibrary playlistTracks={playlist} onAddTrack={loadPlaylist} />
         </div>
 
-        {/* Playlist (40%) */}
-        <div className="h-full min-h-0 bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden transform transition-all duration-300 hover:scale-[1.01] flex flex-col w-full xl:basis-[44%]">
+        {/* Playlist (52%) - With random background */}
+        <div className={`h-full min-h-0 ${backgroundColors[selectedPlaylistIndex % backgroundColors.length]} backdrop-blur-sm rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden transform transition-all duration-300 hover:scale-[1.01] flex flex-col w-full xl:basis-[52%]`}>
           <Playlist 
             playlist={playlist} 
             onUpdate={loadPlaylist}
@@ -141,26 +150,70 @@ export default function Home() {
           />
         </div>
 
-        {/* Playing From (30%) - compact header shown when a track is playing */}
-        <div className="h-full min-h-20 hidden xl:flex flex-col w-full xl:basis-[24%]">
-          {(() => {
-            const current = playlist.find(i => i.id === currentPlayingId);
-            if (!current) return null;
-            const secs = playlist.reduce((s, i) => s + i.track.duration_seconds, 0);
-            const mins = Math.floor(secs / 60);
-            const rem = secs % 60;
-            return (
-              <PlaylistHeader
-                compact
-                title={current.track.title}
-                coverUrl={current.track.cover_url}
-                totalTracks={playlist.length}
-                totalDurationLabel={`${mins}:${String(rem).padStart(2,'0')}`}
-                followersLabel={current.track.artist}
-                onPlayAll={() => playlistApi.setPlaying(current.id)}
-              />
-            );
-          })()}
+        {/* Playing From (16%) - Full height card with footer */}
+        <div className="h-full min-h-40 hidden xl:flex flex-col w-full xl:basis-[16%] bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden transform transition-all duration-300 hover:scale-[1.01]">
+          <div className="flex-1 flex flex-col">
+            {(() => {
+              const current = playlist.find(i => i.id === currentPlayingId);
+              if (!current) {
+                return (
+                  <div className="flex-1 flex items-center justify-center text-gray-400 p-4">
+                    <div className="text-center">
+                      <div className="text-sm">No track playing</div>
+                    </div>
+                  </div>
+                );
+              }
+              const secs = playlist.reduce((s, i) => s + i.track.duration_seconds, 0);
+              const mins = Math.floor(secs / 60);
+              const rem = secs % 60;
+              return (
+                <>
+                  <div className="flex-1 p-4">
+                    <PlaylistHeader
+                      compact
+                      title={current.track.title}
+                      coverUrl={current.track.cover_url}
+                      totalTracks={playlist.length}
+                      totalDurationLabel={`${mins}:${String(rem).padStart(2,'0')}`}
+                      followersLabel={current.track.artist}
+                      onPlayAll={() => playlistApi.setPlaying(current.id)}
+                    />
+                  </div>
+                  
+                  {/* Footer with additional info */}
+                  <div className="border-t border-gray-700/50 p-3 space-y-2">
+                    <div className="text-xs text-gray-400">
+                      <div className="flex justify-between">
+                        <span>Artist:</span>
+                        <span className="text-gray-300 truncate ml-2">{current.track.artist}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Album:</span>
+                        <span className="text-gray-300 truncate ml-2">{current.track.album || 'Unknown'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Genre:</span>
+                        <span className="text-gray-300 truncate ml-2">{current.track.genre || 'Unknown'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Duration:</span>
+                        <span className="text-gray-300 ml-2">
+                          {Math.floor(current.track.duration_seconds / 60)}:{String(current.track.duration_seconds % 60).padStart(2, '0')}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Votes:</span>
+                        <span className={`ml-2 ${current.votes > 0 ? 'text-blue-400' : current.votes < 0 ? 'text-red-400' : 'text-gray-300'}`}>
+                          {current.votes > 0 ? '+' : ''}{current.votes}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
+          </div>
         </div>
       </div>
 
@@ -180,4 +233,3 @@ export default function Home() {
     </div>
   );
 }
-

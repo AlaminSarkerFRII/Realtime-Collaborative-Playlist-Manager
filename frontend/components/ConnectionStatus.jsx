@@ -32,7 +32,7 @@ export default function ConnectionStatus() {
   const getStatusColor = () => {
     switch (status) {
       case 'connected':
-        return 'bg-green-500';
+        return 'bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 animate-pulse';
       case 'connecting':
         return 'bg-yellow-500';
       case 'closing':
@@ -61,9 +61,8 @@ export default function ConnectionStatus() {
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <div className={`w-2 h-2 rounded-full ${getStatusColor()}`} />
+      <div className={`w-3 h-3 rounded-full ${getStatusColor()} shadow-lg shadow-green-500/50`} />
       <span className="text-gray-600 dark:text-gray-400">{getStatusText()}</span>
     </div>
   );
 }
-
