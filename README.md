@@ -340,6 +340,12 @@ To test real-time synchronization:
 
 ## Demo
 
+### Video Demo
+
+[![Project's Intro Video](frontend/public/screenshots/image.png)](https://youtu.be/0euVuo_5s1Y)
+
+The video is also served by the app at `/screenshots/playlist_video.webm` when running locally.
+
 ### Screenshots
 
 ![Main UI – Realtime Collaborative Playlist](frontend/public/screenshots/image.png)
@@ -358,15 +364,6 @@ Place your screenshot file at `frontend/public/screenshots/main-ui.png` so it re
 
 ![TRACK ITEMS – Track List](frontend/public/screenshots/tracks_items.png)
 
-### Video Demo
-
-<video src="frontend/public/screenshots/playlist_video.webm" controls style="max-width:100%; height:auto; border-radius:8px; outline:none;">
-  Your browser does not support the video tag. You can download/view it directly here:
-  <a href="frontend/public/screenshots/playlist_video.webm">playlist_video.webm</a>
-  
-</video>
-
-The video is also served by the app at `/screenshots/playlist_video.webm` when running locally.
 
 ## License
 
