@@ -117,7 +117,7 @@ export default function TrackLibrary({ playlistTracks, onAddTrack }) {
               return (
                 <div
                   key={track.id}
-                  className="flex items-center justify-between p-3 bg-gray-700/30 border border-gray-600/50 rounded-lg hover:bg-gray-700/50 hover:border-gray-500 hover:shadow-lg transition-all duration-300 animate-slide-up hover:scale-[1.02] backdrop-blur-sm"
+                  className="flex items-center justify-between p-3 bg-gray-700/30 border border-gray-600/50 rounded-lg hover:bg-gray-700/50 hover:border-gray-500 hover:shadow-lg transition-all duration-300 backdrop-blur-sm hover:scale-[1.02]"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <div className="flex-1 min-w-0">
@@ -161,4 +161,3 @@ export default function TrackLibrary({ playlistTracks, onAddTrack }) {
     </div>
   );
 }
-

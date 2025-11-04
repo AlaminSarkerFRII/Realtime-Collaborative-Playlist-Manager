@@ -26,7 +26,7 @@ export default function PlaylistHeader({ title = 'Collaborative Playlist', cover
 
   if (compact) {
     return (
-      <div className="m-0 rounded-xl border border-gray-700/60 overflow-hidden relative min-h-[220px]">
+      <div className="m-0 rounded-xl border border-gray-700/60 overflow-hidden relative h-full min-h-[220px]">
         {/* Background cover */}
         <div
           className={`absolute inset-0 ${coverUrl ? 'bg-cover bg-center' : 'bg-gradient-to-br from-primary-500 to-primary-700'}`}
@@ -36,7 +36,7 @@ export default function PlaylistHeader({ title = 'Collaborative Playlist', cover
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
 
         {/* Content */}
-        <div className="relative p-4">
+        <div className="relative p-4 h-full flex flex-col">
           <div className="text-[10px] uppercase tracking-wide text-gray-300 drop-shadow">Playing from</div>
           <div className="text-2xl font-extrabold text-white truncate drop-shadow">{title}</div>
           <div className="mt-1 text-xs text-gray-200 space-x-2 truncate drop-shadow">
@@ -46,7 +46,7 @@ export default function PlaylistHeader({ title = 'Collaborative Playlist', cover
             <span>•</span>
             <span>{totalDurationLabel}</span>
           </div>
-          <div className="mt-3">
+          <div className="mt-auto">
             <button onClick={onPlayAll} className="px-3 py-1.5 rounded-full bg-white/90 text-gray-900 text-sm font-semibold hover:bg-white transition-colors shadow">
               Play
             </button>

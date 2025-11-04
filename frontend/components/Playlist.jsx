@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { playlistApi } from '@/lib/api';
 import { calculatePosition } from '@/lib/position';
@@ -12,6 +12,11 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
   useEffect(() => {
     setLocalPlaylist(playlist);
   }, [playlist]);
+
+  // Sort playlist by votes (highest first)
+  const sortedPlaylist = useMemo(() => {
+    return [...localPlaylist].sort((a, b) => b.votes - a.votes);
+  }, [localPlaylist]);
 
   const formatDuration = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -67,7 +72,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
       return;
     }
 
-    const items = Array.from(localPlaylist);
+    const items = Array.from(sortedPlaylist);
     const [reorderedItem] = items.splice(source.index, 1);
     items.splice(destination.index, 0, reorderedItem);
 
@@ -98,7 +103,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
     }
   };
 
-  const totalDuration = localPlaylist.reduce((sum, item) => sum + item.track.duration_seconds, 0);
+  const totalDuration = sortedPlaylist.reduce((sum, item) => sum + item.track.duration_seconds, 0);
 
   // Auto-scroll current playing row into view
   useEffect(() => {
@@ -115,7 +120,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-white">Playlist</h2>
           <div className="text-sm text-gray-300">
-            {localPlaylist.length} tracks • {formatDuration(totalDuration)}
+            {sortedPlaylist.length} tracks • {formatDuration(totalDuration)}
           </div>
         </div>
       </div>
@@ -140,13 +145,13 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
                 snapshot.isDraggingOver ? 'bg-gray-800/40' : ''
               }`}
             >
-              {localPlaylist.length === 0 ? (
+              {sortedPlaylist.length === 0 ? (
                 <div className="text-center text-gray-400 py-8 animate-pulse">
                   Playlist is empty. Add some tracks!
                 </div>
               ) : (
                 <div className="space-y-1">
-                  {localPlaylist.map((item, index) => {
+                  {sortedPlaylist.map((item, index) => {
                     const isPlaying = item.is_playing || item.id === currentPlayingId;
                     return (
                       <Draggable key={item.id} draggableId={item.id} index={index}>
@@ -164,7 +169,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
                               <button
                                 onClick={() => handleSetPlaying(item.id)}
                                 title={isPlaying ? 'Playing' : 'Play'}
-                                className={`p-1 rounded-md transition-colors flex items-center justify-center w-5 h-5 ${isPlaying ? 'text-primary-400' : 'text-gray-400 hover:text-primary-300'}`}
+                                className={`p-1 rounded-md transition-colors flex items-center justify-center w-6 h-6 ${isPlaying ? 'text-primary-400' : 'text-gray-400 hover:text-primary-300'}`}
                                 aria-label="Play"
                               >
                                 {isPlaying ? (
@@ -174,7 +179,7 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
                                     <span className="eq-bar"></span>
                                   </span>
                                 ) : (
-                                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                                 )}
                               </button>
                               <div {...provided.dragHandleProps} className="text-gray-400 hover:text-primary-400 cursor-grab select-none w-5 text-right">{index + 1}</div>
@@ -195,18 +200,16 @@ export default function Playlist({ playlist, onUpdate, currentPlayingId }) {
                             {/* Right controls */}
                             <div className="flex items-center justify-end gap-2 text-gray-400">
                               <button onClick={() => handleVote(item.id, 'down')} className="p-1 hover:text-red-400 hover:scale-110 transition-transform" aria-label="Dislike">
-                                {/* Facebook-like thumbs down (outlined until hover) */}
-                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M10.5 4.75c.69 0 1.25.56 1.25 1.25v4.25l2.02 4.03c.42.84-.19 1.97-1.13 1.97H8.5a1.5 1.5 0 0 1-1.45-1.12L5.2 13H3.5A1.5 1.5 0 0 1 2 11.5v-5A1.5 1.5 0 0 1 3.5 5h7Z"/>
-                                  <path d="M18 5h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3V5Z"/>
+                                {/* Thumbs down icon */}
+                                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l-4-4m0 0l4-4M4 14h6m4-4v6m0 4l-4-4" />
                                 </svg>
                               </button>
                               <div className={`w-8 text-center ${bumpingId===item.id?'vote-bump':''} ${item.votes>0?'text-blue-400':item.votes<0?'text-red-400':'text-gray-400'}`}>{item.votes>0?'+':''}{item.votes}</div>
                               <button onClick={() => handleVote(item.id, 'up')} className="p-1 hover:text-blue-400 hover:scale-110 transition-transform" aria-label="Like">
-                                {/* Facebook-like thumbs up */}
-                                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                                  <path d="M13.5 19.25c-.69 0-1.25-.56-1.25-1.25V13.75L10.23 9.7c-.42-.84.19-1.97 1.13-1.97h4.14c.66 0 1.25.45 1.43 1.1L18.8 11H20.5A1.5 1.5 0 0 1 22 12.5v5A1.5 1.5 0 0 1 20.5 19h-7Z"/>
-                                  <path d="M6 19H3a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h3v8Z"/>
+                                {/* Thumbs up icon */}
+                                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M14 10l4-4m0 0l4 4M18 14h6m4-4v6m0 4l-4-4" />
                                 </svg>
                               </button>
                               <button onClick={() => handleRemove(item.id)} className="p-1 hover:text-red-400 hover:scale-110 transition-transform" aria-label="Remove">
