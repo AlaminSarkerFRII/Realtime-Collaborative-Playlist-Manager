@@ -18,19 +18,19 @@ docker compose up
 ```bash
 # Terminal 1 - Backend
 cd backend
-npm install
+pnpm install
 cp .env.example .env
-npm run db:generate
-npm run db:migrate
-npm run db:seed
-npm run dev
+pnpm run db:generate
+pnpm run db:migrate
+pnpm run db:seed
+pnpm run dev
 
 # Terminal 2 - Frontend  
 cd frontend
-npm install
+pnpm install
 echo "NEXT_PUBLIC_API_URL=http://localhost:4000" > .env.local
 echo "NEXT_PUBLIC_WS_URL=ws://localhost:4000" >> .env.local
-npm run dev
+pnpm run dev
 
 # Then open: http://localhost:3000
 ```
@@ -61,7 +61,7 @@ npm run dev
 
 ```bash
 cd backend
-npm test
+pnpm test
 ```
 
 ## 📝 Features to Try
@@ -79,7 +79,7 @@ npm test
 **Backend won't start:**
 - Check if port 4000 is available
 - Ensure database file is writable
-- Run `npm run db:migrate` again
+- Run `pnpm run db:migrate` again
 
 **Frontend won't connect:**
 - Ensure backend is running first

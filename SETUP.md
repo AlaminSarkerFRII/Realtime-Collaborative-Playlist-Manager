@@ -3,7 +3,7 @@
 ## Quick Start
 
 ### Prerequisites
-- Node.js 18+ and npm
+- Node.js 18+ and pnpm (via Corepack)
 - Docker and Docker Compose (optional)
 
 ### Option 1: Docker Compose (Easiest)
@@ -28,11 +28,11 @@ Access the application at:
 
 ```bash
 # Root directory
-npm run install:all
+pnpm run install:all
 
 # Or separately:
-cd backend && npm install
-cd ../frontend && npm install
+cd backend && pnpm install
+cd ../frontend && pnpm install
 ```
 
 #### Step 2: Setup Backend
@@ -44,16 +44,16 @@ cd backend
 cp .env.example .env
 
 # Generate Prisma client
-npm run db:generate
+pnpm run db:generate
 
 # Run migrations (creates database)
-npm run db:migrate
+pnpm run db:migrate
 
 # Seed database
-npm run db:seed
+pnpm run db:seed
 
 # Start backend (in one terminal)
-npm run dev
+pnpm run dev
 ```
 
 Backend will run on `http://localhost:4000`
@@ -68,7 +68,7 @@ echo "NEXT_PUBLIC_API_URL=http://localhost:4000" > .env.local
 echo "NEXT_PUBLIC_WS_URL=ws://localhost:4000" >> .env.local
 
 # Start frontend (in another terminal)
-npm run dev
+pnpm run dev
 ```
 
 Frontend will run on `http://localhost:3000`
@@ -77,7 +77,7 @@ Frontend will run on `http://localhost:3000`
 
 ```bash
 cd backend
-npm test
+pnpm test
 ```
 
 ## Troubleshooting
@@ -89,8 +89,8 @@ cd backend
 # Delete existing database
 rm dev.db dev.db-journal
 # Recreate
-npm run db:migrate
-npm run db:seed
+pnpm run db:migrate
+pnpm run db:seed
 ```
 
 ### Port Already in Use
@@ -108,13 +108,13 @@ If port 3000 or 4000 is already in use:
 ### Backend
 ```bash
 cd backend
-npm start
+pnpm start
 ```
 
 ### Frontend
 ```bash
 cd frontend
-npm run build
-npm start
+pnpm run build
+pnpm start
 ```
 

@@ -28,7 +28,7 @@ A real-time collaborative playlist application where multiple users can add, rem
 
 ## Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 18+ and pnpm (via Corepack)
 - Docker and Docker Compose (optional, for containerized setup)
 
 ## Quick Start
@@ -67,22 +67,22 @@ docker compose up
 cd backend
 
 # Install dependencies
-npm install
+pnpm install
 
 # Create .env file (copy from .env.example)
 cp .env.example .env
 
 # Generate Prisma client
-npm run db:generate
+pnpm run db:generate
 
 # Run database migrations
-npm run db:migrate
+pnpm run db:migrate
 
 # Seed the database
-npm run db:seed
+pnpm run db:seed
 
 # Start the server
-npm run dev
+pnpm run dev
 ```
 
 The backend will run on `http://localhost:4000`
@@ -93,14 +93,14 @@ The backend will run on `http://localhost:4000`
 cd frontend
 
 # Install dependencies
-npm install
+pnpm install
 
 # Create .env.local file
 echo "NEXT_PUBLIC_API_URL=http://localhost:4000" > .env.local
 echo "NEXT_PUBLIC_WS_URL=ws://localhost:4000" >> .env.local
 
 # Start the development server
-npm run dev
+pnpm run dev
 ```
 
 The frontend will run on `http://localhost:3000`
@@ -146,14 +146,14 @@ To re-seed the database:
 
 ```bash
 cd backend
-npm run db:seed
+pnpm run db:seed
 ```
 
 ## Running Tests
 
 ```bash
 cd backend
-npm test
+pnpm test
 ```
 
 ### API Tests (supertest)
@@ -162,7 +162,7 @@ This repo includes API endpoint tests using `supertest` that exercise CRUD and p
 
 ```bash
 cd backend
-npm test
+pnpm test
 ```
 
 ### Manual API Testing
@@ -189,14 +189,14 @@ From the repository root you can run:
 
 ```bash
 # Run backend tests
-npm run test:backend
+pnpm run test:backend
 
 # Setup the database (generate client, migrate, seed)
-npm run db:setup
+pnpm run db:setup
 
 # Seed only / migrate only
-npm run db:seed
-npm run db:migrate
+pnpm run db:seed
+pnpm run db:migrate
 ```
 
 Tests cover:
