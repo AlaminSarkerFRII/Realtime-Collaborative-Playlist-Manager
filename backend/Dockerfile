@@ -4,18 +4,18 @@ WORKDIR /app
 
 # Install OpenSSL and other dependencies needed for Prisma
 RUN apk add --no-cache openssl openssl-dev libc6-compat curl sqlite
+RUN corepack enable && corepack prepare pnpm@9.12.2 --activate
 
 # Copy package files
 COPY package*.json ./
+COPY pnpm-lock.yaml ./
 COPY prisma ./prisma/
 
 # Install dependencies
-# RUN npm ci
-
-RUN npm install
+RUN pnpm install --frozen-lockfile
 
 # Generate Prisma client with Alpine Linux binary targets
-RUN npx prisma generate
+RUN pnpm exec prisma generate
 
 # Copy application code
 COPY . .
