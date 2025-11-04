@@ -35,18 +35,29 @@ A real-time collaborative playlist application where multiple users can add, rem
 
 ### Option 1: Docker Compose (Recommended)
 
+**Fully automated setup** - No manual steps required! Database migrations and seeding happen automatically on first startup.
+
 ```bash
 # Clone the repository
 git clone <repository-url>
 cd playlist
 
-# Start all services
+# Start all services (migrations and seeding run automatically)
 docker compose up
 
 # The application will be available at:
 # - Frontend: http://localhost:3000
 # - Backend API: http://localhost:4000
 ```
+
+**What happens automatically:**
+- ✅ Prisma client generation
+- ✅ Database migrations
+- ✅ Database seeding (if empty)
+- ✅ Backend health check
+- ✅ Frontend waits for backend to be ready
+
+**Note:** On subsequent runs, the database persists via volume mount, so migrations and seeding are skipped if data already exists.
 
 ### Option 2: Manual Setup
 
